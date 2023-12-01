@@ -1,29 +1,20 @@
 # include <iostream>
+# include "./utils/utils.hpp"
 
-// Hello world function 
-int hello() {
-    std::cout << "Hello World" << std::endl; 
-    return 0;
-}
+using namespace std;
+// using namespace utility_func; // might add conflict 
 
-void swap() {
-    int a = 10, b = 20; 
-    std::cout << a << ", " << b << "\n";  
-    int temp = a; 
-    a = b; 
-    b = temp; 
-    std::cout << a << ", " << b << "\n";  
-}
-
-void math_operations(int a, int b) {
-    int c = a % b;
-    std::cout << a << "%" << b << "=" << c << "\n";
-}
-
+/* ---------------------------------------------
+Cpp Basics 
+--------------------------------------------- */
 int main() {
-    double count = 9.99 ; 
-    hello();
-    swap(); 
-    math_operations(-10,-3); // -1
+    utility_func::hello();
+    // utility_func::swap(); 
+    utility_func::math_operations(-10,-3); // -1
+    utility_func::get_rand(4,10);
+    utility_func::overflow();
+    string name = utility_func::get_name();
+    cout << "Hi " << name << endl; 
+    utility_func::print_tri();
     return 0;
 }
