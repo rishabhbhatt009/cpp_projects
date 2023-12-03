@@ -1,8 +1,9 @@
 # cpp_projects
 
 ---
-## Part 1 
-- C++ Syntax
+## Part 1 : Basics 
+
+- C++ Basic Syntax
 - C++ Standard Library : Data Structures (list, map), Algorithms (searching, sorting)
 - Statically Typed language 
 - How do we compile and run C++ code ? 
@@ -13,7 +14,7 @@
     - C++ is compiled language while Python is an interpreted language 
 
 ---
-Basics 
+
 - Variables 
     - declare type + initialize : `int a = 0;`
     - Uninitialized variables contain garbage values. Unlike JAVA and C# which initialize variable at declaration
@@ -44,9 +45,9 @@ Basics
     - `numeric_limits<int>::max()/min()` : limits of data types 
     - Overflow : when the val is too big for the data type it wraps around to its min
     - String :
-    - `char name = "R"`
-    - `string name = "Rishabh"`
-    - `std::getline(cin, full_name)` to read string with space
+        - `char name = "R"`
+        - `string name = "Rishabh"`
+        - `std::getline(cin, full_name)` to read string with space
     - Arrays : 
         - Declare an array of 10 integers : `int arr[10];` (init to 0 by default)
         - Declare and init an array : `int arr[10] = {1,2,3,4,5}` // arr = [1,2,3,4,5,0,0,0,0,0]
@@ -125,7 +126,7 @@ Basics
 
 - Loop : 
     - `for (init; condition; increment) {...}` 
-    - Looping over a array/string : `for (int num: numbers) {...}` -> `for num in numbers : {...}`
+    - Looping over a array/string : `for (int num : numbers) {...}` -> `for num in numbers : {...}`
     - `while (condition) {...}`
     - `do {...} while (condition)`
     - control flow : `break` and `continue`
@@ -146,7 +147,8 @@ Basics
         - same name but different signature (type / # of parameters)
     - Pass arguments by value and reference : 
         - Call by value : `int func(int var)` 
-        - Call by reference : definition changes -> `void func(int &var)`
+        - Call by reference : definition changes -> `void func(int& var)` / use pointers
+        
 
 - Organizing Functions in files : 
     - Implementation File (`utils.cpp`) with Function Definitions 
@@ -156,30 +158,74 @@ Basics
         - by adding them in `g++` one by one, 
         - using a `makefile`
 
----
-Standard Template Library
-- we use the `include` directive to add functions
-- `using namespace std` : adds all fnuction in `std` to namespace
-- `using std::cout` : adds `std::cout` to namespace
-- `# include <iostream>`
-    - Standard output stream : `std::cout` 
-        - Stream insertion operator : `<<`
-        - Endline : `std:endl`
-    - Standard input stream : `std:cin`
-        - Stream extraction operator : `>>`
-- `# include <cmath>`
-    - Useful functions : `pow`, `ceil`, `floor` 
-- `# include <cstdlid>`
-    - `rand()` to get random number (gives same result for every run)
-    - `srand(int)` to set seed value 
-- `# include <ctime>`
-    - `time(0)` : current time in sec from `Jan 1 1970`
-- `# include <iomanip>`
-    - `setw(int)` : reserve characters
-    - `left`, `right` : align string (sticky manipulator), no center manipulator 
-    - `fixed` : fix number of digits after decimal 
-    - `setprecision()` : for number of digits after decimal 
-    - `boolalpha`/`noboolalpha` : prints alpha for bool
-- `# include <limits>`
-    - `numeric_limits<>::min()`/`numeric_limits<>::max()`
--
+- Standard Template Library
+    - we use the `include` directive to add functions
+    - `using namespace std` : adds all fnuction in `std` to namespace
+    - `using std::cout` : adds `std::cout` to namespace
+    - `# include <iostream>`
+        - Standard output stream : `std::cout` 
+            - Stream insertion operator : `<<`
+            - Endline : `std:endl`
+        - Standard input stream : `std:cin`
+            - Stream extraction operator : `>>`
+    - `# include <cmath>`
+        - Useful functions : `pow`, `ceil`, `floor` 
+    - `# include <cstdlib>`
+        - `rand()` to get random number (gives same result for every run)
+        - `srand(int)` to set seed value 
+    - `# include <ctime>`
+        - `time(0)` : current time in sec from `Jan 1 1970`
+    - `# include <iomanip>`
+        - `setw(int)` : reserve characters
+        - `left`, `right` : align string (sticky manipulator), no center manipulator 
+        - `fixed` : fix number of digits after decimal 
+        - `setprecision()` : for number of digits after decimal 
+        - `boolalpha`/`noboolalpha` : prints alpha for bool
+    - `# include <limits>`
+        - `numeric_limits<>::min()`/`numeric_limits<>::max()`
+
+----
+
+## Part 2 : Intermediate 
+- Arrays :
+    - Creating and initializing : 
+        - `int arr[5];` // arr has garbage values 
+        - `int arr[5] = {1,2,3};` // arr = [1,2,3,0,0]
+        - `int arr[] = {1,2,3};` // arr = [1,2,3]
+        - `int arr [5][5];`
+        - `int arr [5][5] = {{...},{...},{...},{...},{...}};`
+    - `arr` = pointer which stores the address of the start of the array
+    - len(arr) = `sizeof(arr) / sizeof(arr[0])` = `std::size(arr)`
+    - Passing array to a function : 
+        - In C++, when you pass an array to a function, what you're actually doing is passing a pointer to the first element of the array. This is known as "array decaying."
+        - passed by reference : an array pointer (which only contains address) 
+        - pointer can not be looped over and doesn't have size of array
+        - therefore we always pass `size` as well 
+        - function declaration : 
+            - `void func(int arr[], int size){...}`
+            - `void func(int* arr, int size){...}`
+        - function invocation : `func(arr)`
+        - 2D array : To modify the function to accept a 2D array, you need to specify the size of at least one of the dimensions of the array in the function parameters. This is because when arrays are passed to functions, they decay into pointers, and the size information of the array is lost. For a 2D array, you need to provide the size of the second dimension to correctly calculate the memory layout.      
+    - Returning array from a function : 
+        - return a pointer to the array 
+        - function definition : `int* calc(int arr[]) { ...; return arr; }`
+    - Unpacking array (Structured binding) : `auto [x,y,z] = arr;`
+- `sizeof()` return `size_t` which is a datatype ~ largest datatype in size
+- Pointers 
+    - `nullptr` = null pointer 
+    - `&` : `address of` operator, gives the address of a variable
+    - `int* ptr = &var` : we have an int pointer which stores the address of int var
+    - Indirection / de-referencing Operator : `ptr = address`, to access the value stored in the address we de-reference the pointer `*ptr`
+    - Constant pointer : 
+        - `int* ptr` : normal pointer 
+        - `const int* ptr` : pointer to a const integer
+        - `int* const ptr` : constant pointer to an integer 
+        - `const int* const ptr` : constant pointer to a constant integer 
+    - Passing pointers to function :
+        - 
+- Strings
+- Structures 
+- Enumerations 
+- Streams 
+
+
