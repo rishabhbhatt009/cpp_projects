@@ -2,6 +2,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <fstream>
+
 using namespace std;
 
 void pprint(int *arr, int size){
@@ -145,12 +147,51 @@ enum Actions {
     BUILD = 2 
 };
 
+int getNumber(const string& prompt){
+    int number; 
+    while (true){
+        cout << prompt;
+        cin >> number;
+        if (cin.fail()){
+            cout << "Enter a valid number" << endl;
+            cin.clear();
+            cin.ignore();
+        }
+        else break;
+    }
+    return number; 
+}
+
 int main(){
     cout << "Hello World ..." << endl;
     // arrays(); 
     // pointers();
     // string(); 
+    // structures();
     
+    // Streams 
+    // int a,b; 
+    // cout << "Enter num 1 : ";
+    // cin >> a; // Input 1 2
+    // cout << "Enter num 2 : "; // doesn't wait
+    // cin >> b; // directly reads from buffer 
+
+    // int num1 = getNumber("Enter num 1 : ");
+    // int num2 = getNumber("Enter num 2 : ");
+    // cout << num1+num2 << endl;
+
+    // Handling Files 
+    fstream file; 
+    file.open("data.csv",  ios::out);
+
+    if (file.is_open()){
+        file << "Title, Year, Rating\n";
+        file << "Iron Man 1, 2005, 10.0\n";
+        file << "Iron Man 2, 2010, 10.0\n";
+        file << "Iron Man 3, 2015, 10.0\n";
+        file.close();
+    }
+    else cout << "Open Failed";
 
     return 0;
 }
