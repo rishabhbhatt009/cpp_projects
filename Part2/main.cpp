@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -33,13 +34,25 @@ void arrays(){
     un_packing();
 }
 
-int main(){
-    cout << "Hello World ..." << endl;
-    // arrays(); 
-    
+void pointers(){
     // Pointers 
     int a = 10;
     const int* const ptr = &a;
     cout << ptr << ", " << *ptr << endl;
+    
+    // Smart pointers 
+    auto x = make_unique<int>();
+    auto y = make_shared<int>();
+    shared_ptr<int> z(y);
+    cout << x.get() << " : " << *x << endl;
+    cout << y << " : " << *y << endl;
+    cout << z << " : " << *z << endl;
+}
+
+int main(){
+    cout << "Hello World ..." << endl;
+    // arrays(); 
+    // pointers()
+
     return 0;
 }
