@@ -332,8 +332,55 @@
     - classic enums are implicitly converted to `int`, strongly typed enums have to explicitly converted to `int` before use 
 
 - Streams :
-    - 
+    - stream is an abstraction for a data source or destination. 
+    - Using streams, we can read/write data to a variety of places (eg terminal, files, network, etc) in the same way
+    - `ios` : input output stream (base class), `ostream`, `istream` 
+    - buffer : temp storage, `cin` reads data from buffer
+        - `ignore()` : remove characters from buffer 
+        - `clear()` : clear state
+    - handling errors :
+        - ask for input -> `if fail()` -> `clear` state -> `ignore` buffer -> ask for input
+    - File Stream :
+        - File stream classes : `ifstream`, `ofstream`, `fstream` (both)
+        - writing to a file : 
+            - open -> check `file.is_open()` -> write (`<<`/`write()`)
+        - read from a file : 
+            - open -> check `file.is_open()` -> read (`>>`/`getline()`) till `!file.eof()`
+            - `>>` : reads till white space / EOL
+            - `getline()` : reads till EOL / specified delimiter
+        - read/write from/to a binary file (images, audio files, PDFs) :
+            - `.bin`, `.dat`
+            - `file.open(name, mode=ios::out | ios::binary)` // combining mode
+            - `file.write()`
+            - `file.read()`  
+        - `\n` vs `endl` : `endl` flushes the buffer while `\n` doesn't. Therefore if are looping through a write we would want to only flush it once at the end instead of every time (with `endl`). Therefore `\n` is preferred for performance.
+        - modes (combine using `|`) : `ios::in` | `ios::out` | `ios::app` | `ios::binary`
+    
+    - String Stream
+        - `istringstream`, `ostringstream`, `stringstream` all included in `stream`
+        - why is it useful ? 
+            - Conversion to string : we can control who we covert (example precision of double)
+            - Parsing String : to split string 
+
+        ```c++
+        std::vector<std::string> split(const std::string &s, char delimiter) {
+            std::vector<std::string> tokens;
+            std::string token;
+            std::istringstream tokenStream(s);
+
+            while (std::getline(tokenStream, token, delimiter)) {
+                tokens.push_back(token);
+            }
+
+            return tokens;
+        }
+        ```
 
 
 
 
+
+
+---
+
+## Part 3 : Advance
