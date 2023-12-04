@@ -45,7 +45,7 @@
     - `numeric_limits<int>::max()/min()` : limits of data types 
     - Overflow : when the val is too big for the data type it wraps around to its min
     - String :
-        - `char name = "R"`
+        - `char name = 'R'` // characters written in single quotation mark 
         - `string name = "Rishabh"`
         - `std::getline(cin, full_name)` to read string with space
     - Arrays : 
@@ -149,7 +149,6 @@
         - Call by value : `int func(int var)` 
         - Call by reference : definition changes -> `void func(int& var)` / use pointers
         
-
 - Organizing Functions in files : 
     - Implementation File (`utils.cpp`) with Function Definitions 
     - Header File (`utils.hpp`) with Function Declarations and imported using include directive 
@@ -162,20 +161,20 @@
     - we use the `include` directive to add functions
     - `using namespace std` : adds all fnuction in `std` to namespace
     - `using std::cout` : adds `std::cout` to namespace
-    - `# include <iostream>`
+    - `# include <iostream>` : for IO streams 
         - Standard output stream : `std::cout` 
             - Stream insertion operator : `<<`
             - Endline : `std:endl`
         - Standard input stream : `std:cin`
             - Stream extraction operator : `>>`
-    - `# include <cmath>`
+    - `# include <cmath>` : for math functions 
         - Useful functions : `pow`, `ceil`, `floor` 
-    - `# include <cstdlib>`
+    - `# include <cstdlib>` : c std library
         - `rand()` to get random number (gives same result for every run)
         - `srand(int)` to set seed value 
     - `# include <ctime>`
         - `time(0)` : current time in sec from `Jan 1 1970`
-    - `# include <iomanip>`
+    - `# include <iomanip>` : for IO stream manipulation 
         - `setw(int)` : reserve characters
         - `left`, `right` : align string (sticky manipulator), no center manipulator 
         - `fixed` : fix number of digits after decimal 
@@ -183,6 +182,9 @@
         - `boolalpha`/`noboolalpha` : prints alpha for bool
     - `# include <limits>`
         - `numeric_limits<>::min()`/`numeric_limits<>::max()`
+    - `# include <memory>` : for smart pointers
+    - `# include <string>` : for strings  
+    - `# include <cstring>` : for `cstrings`  
 
 ----
 
@@ -210,10 +212,12 @@
         - return a pointer to the array 
         - function definition : `int* calc(int arr[]) { ...; return arr; }`
     - Unpacking array (Structured binding) : `auto [x,y,z] = arr;`
+
 - `sizeof()` return `size_t` which is a datatype ~ largest datatype in size
+
 - Pointers 
     - `nullptr` = null pointer 
-    - `&` : `address of` operator, gives the address of a variable
+    - `&` : `address of` operator when `&a`, gives the address of a variable
     - `int* ptr = &var` : we have an int pointer which stores the address of int var
     - Indirection / de-referencing Operator : `ptr = address`, to access the value stored in the address we de-reference the pointer `*ptr`
     - Constant pointer : 
@@ -221,11 +225,115 @@
         - `const int* ptr` : pointer to a const integer
         - `int* const ptr` : constant pointer to an integer 
         - `const int* const ptr` : constant pointer to a constant integer 
-    - Passing pointers to function :
-        - 
+    - Passing pointers to and from functions :
+        - you can call by reference using : 
+            - pointers (`void func(int* var){...}`), you need to send address (&var) and dereference before using 
+            - reference (`void func(int& var){...}`)
+        - `int* func()` : returning an int pointer 
+    - Pointer Arithmetic 
+    - Dynamic Memory Allocation 
+        - normal memory allocation : 
+            - in Stack (garbage collection)
+            - `int arr[10]` has fixed # of elements 
+        - dynamic memory allocation : 
+            - in Heap (we have to clean up)
+            - `int* ptr = new int[10];` allocate memory 
+            - `delete[] ptr` : de-allocate memory 
+            - to extend an array : create array -> if capacity full -> create new array -> copy values from old array -> delete old array -> reassign variable
+            - however this is implemented in std library : `vectors`
+    - What are Memory Leaks : when our program consumes more and more memory without de-allocating unused memory
+    - Smart Pointers :
+        - `include <memory>`
+        - internally uses pointers array but adds functionality and abstracts complexity
+        - Unique Pointers :
+            - inbuilt de-allocation functionality  
+            - the pointer owns the memory location 
+            - `unique_ptr<int> x(new int);`
+            - `unique_ptr<int> y = make_unique<int>();`
+            - `auto z = make_unique<int>()`
+            - `auto arr = make_unique<int[]>(10)`
+        - Shared Pointers :
+            - two pointers can point to the same memory location 
+            - inbuilt de-allocation functionality
+            - `shared_ptr<int> x(new int);`
+            - `shared_ptr<int> y = make_shared<int>();`
+            - `auto z = make_shared<int>()`
+            - `shared_ptr<int>(x)` // points to the same location as x 
+        - `unique_ptr` does not have an overloaded `cout <<` (shared_ptr does)
+        - initialized to default of the data type 
+        - `ptr.get()` : to get the address the ptr points to 
+
+- Reference :
+    - A reference in C++ is an alias for another variable
+    - `&` : `reference` operator when `int&`, declares a reference to int type
+    - References and pointers in C++ are both used to refer to other variables, 
+    - key differences in how they are used and behave : 
+        - Definition and Initialization: It must be initialized when it is declared and cannot be null, `int a = 10; int& ref = a`
+        - Indirection: References do not need an indirection operator (*) to access the value they refer to, `ref = 10; // Modifies a to 10`
+        - Reassignment : Once a reference is bound to a variable, it cannot be made to refer to another variable. The binding is permanent for the lifetime of the reference
+        - Nullability : cannot be null, must always refer to a valid object or variable
+    - Constant reference : 
+        - `int& ref` : normal reference to an int (can modify the original var)
+        - `const int& ref` : constant reference to an int (can not modify the original var)
+
 - Strings
-- Structures 
-- Enumerations 
-- Streams 
+    - C strings : 
+        - `# include <cstring>`
+        - C style strings = array of characters terminated by `\0` (null terminator)
+        - We use functions to perform even basic operations : `strlen`, `strcpy`, `strcmp` 
+        - Limitations : 
+            - Operators have not been overloaded cannot directly be used to perform operations 
+            - may face memory issues due to fixed size
+    - C++ string : 
+        - `# include <string>`
+        - internally uses character array but adds functionality and abstracts complexity
+        - Directly do basic operations like copy, compare and concat using operators
+        - Funcs : `length()`, `starts_with()`, `ends_with()`, `empty()`, `front()`, `back()`
+        - Modifying : `append()`, `insert()`, `erase()`, `clear()`, `replace()`
+        - Searching : `find()`, `rfind()`, `find_first_of()`, `find_last_of()`
+        - Substrings : `substr()`
+        - Working with characters : `isalpha()`, `isdigit()`, `toupper()`
+        - String to numeric conv : `stoi`=string to int, `stod`=string to double
+        - Number to string : `to_string()` 
+        - Escape Sequence : 
+            - newline : `\n`
+            - tab : `\t`
+            - backslash : `\\`
+            - quote : `\"`
+        - Raw String : `R"()"`
+
+- Concept : Underflow and overflow of values in variables  
+
+- Structures : 
+    - custom data type / abstract data type (ADT) 
+    - Defining structures : `struct name {...;};` //can add default values for members
+    - Declaring : `name var;`
+    - Initializing : `name var = {1, "Rishabh"}` // values in order
+    - unpakcing : `auto [a,b] = var`
+    - array of structures : `name arr[N];`
+    - Nesting structures
+    - Comparing Structures (using `if` without overloading)
+    - Member Functions : structure can also have member functions called methods
+    - Operator overloading :
+        - `bool operator==(const Movie& movie) const {...}` // inside the struct definition 
+        - `bool operator==(const Movie& movie1, const Movie& movie2) const {...}` // outside the struct definition (preferred method)
+    - Passing objects to and from functions : 
+        - `void func(name& var)` / `void func(const name& var)`
+        - `void func(name* var)`  
+            - dereference `(*var).name` before use, `()` as `.` has higher precedence than `*`
+            - alt = structure pointer operator : `var->name`
+        - `name& func()` / `name* func()`
+
+- Enumerations :
+    - classic enum : `enums name {var=1 ..., ...};`
+    - using enum : `name::var`
+    - enums can have name collisions if same names are used
+    - strongly typed enum : `enums class name {..., ..., ...};`
+    - classic enums are implicitly converted to `int`, strongly typed enums have to explicitly converted to `int` before use 
+
+- Streams :
+    - 
+
+
 
 
