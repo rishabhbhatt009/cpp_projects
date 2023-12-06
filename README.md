@@ -148,9 +148,11 @@
     - Pass arguments by value and reference : 
         - Call by value : `int func(int var)` 
         - Call by reference : definition changes -> `void func(int& var)` / use pointers
+    - Constant functions : `int func() const {...}`, this tells that the function will not modify the state of the (this) object. `static` method can not be const bz they are not related to objects. 
+
         
 - Organizing Functions in files : 
-    - Implementation File (`utils.cpp`) with Function Definitions 
+    - Implementation/Source File (`utils.cpp`) with Function Definitions 
     - Header File (`utils.hpp`) with Function Declarations and imported using include directive 
     - Header Guards to prevent multiple inclusions
     - Note : Compile both `main.cpp` & `func.cpp`, 2 ways to compile all files : 
@@ -218,6 +220,7 @@
 - Pointers 
     - `nullptr` = null pointer 
     - `&` : `address of` operator when `&a`, gives the address of a variable
+    - `&` : `reference` operator when `int&`, declares a reference to int type
     - `int* ptr = &var` : we have an int pointer which stores the address of int var
     - Indirection / de-referencing Operator : `ptr = address`, to access the value stored in the address we de-reference the pointer `*ptr`
     - Constant pointer : 
@@ -266,6 +269,7 @@
 - Reference :
     - A reference in C++ is an alias for another variable
     - `&` : `reference` operator when `int&`, declares a reference to int type
+    - `&` : `address of` operator when `&a`, gives the address of a variable
     - References and pointers in C++ are both used to refer to other variables, 
     - key differences in how they are used and behave : 
         - Definition and Initialization: It must be initialized when it is declared and cannot be null, `int a = 10; int& ref = a`
@@ -383,4 +387,104 @@
 
 ---
 
-## Part 3 : Advance
+## Part 3 : Advance (OOP)
+- specify compiler version while compiling `g++ -std=c++20 your_file.cpp -o your_program`
+- Classes : 
+    - OOP :
+        - Programming Paradigm : style or way of writing software (example OOP, functional, procedural, event driven)
+        - Objects -> attributes (characteristics) and functions (methods)
+        - Class is a blueprint of an object while object is an instance of a class
+        - Structures v/s Class : 
+            - Structures are simple data containers while class encapsulate data (attributes) + behavior (methods)
+            - all the attributes are public and can be modified directly in structures while all attributes are private and can not be modified directly  
+        - 5 Principles of OOP : 
+            1. Abstraction 
+            2. Encapsulation 
+            3. Inheritance 
+            4. Polymorphism 
+    
+    - Classes : 
+        - enable encapsulation of attributes (data) and methods (functions = behavior)
+        - create `.cpp` (implementation) and `.h` (header) files
+        - header file (`.h`) includes :
+            - header guard 
+            - class definition : attributes and method prototypes 
+        - implementation/source file (`.cpp`) includes :
+            - `#include .h`
+            - implementation of class methods  
+            - we use (scope resolution operator `::`) to specify class for each function 
+        - only header file included in `main.cpp`
+        - why do we have separate header (interface) and source file (implementation) ? 
+            - To reduce compilation time
+            - when we modify function in source file only source file need to be re-compiled
+            - when we modify the header file we have to re-compile the header file + all files that are dependent on the header file
+    
+    - Access modifiers (public, private)
+        - enables abstraction 
+        - public, private and protected
+    
+    - Getters and Setters 
+        - Getter or Accessors : get values for member variables
+        - Setter or Mutator : validate and set values for member variables
+
+    - Constructors 
+        - `class_name(){...}` // not return type not even `void` 
+        - `obj = class_name(val1, val2)`
+        - `obj = class_name{val1, val2}`
+        - member variables can be initialized : 
+            - inside the constructor 
+            - using the `member initializer list`
+        - member initializer list creates + initializes variables in a single operation
+        - `class_name::class_name(int var1, int var2) : var1{var1}, var2{var2} {...}`
+        - Default Constructor : constructor with no parameters 
+            - compiler creates a default constructor unless we define our constructor
+            - we can overload constructor as well
+            - adding a default constructor : (`class_name() = default`)
+        - `explicit` keyword
+            - compiler sometimes implicitly converts other data types to objects of our class (for classes with single member variable)
+            - `class_name(int var);` // called Converting Constructor (int->class_obj)
+            - to prevent this behavior we use `explicit` 
+            - `explicit class_name(int var);` 
+        - Constructor Delegation 
+            - `class_name(int var1, int var2) {...}`
+            - `class_name(int var1, int var2, int var3) : class_name(var1,var2) {this->var3=var3;}`
+        - Copy Constructor 
+            - compiler generates a copy constructor by default (good in most situation)
+            - `class_name(const class_name& source){...}`
+            - caveat : if member variables added/deleted we have to modify the copy constructor 
+            - `class_name(const class_name& source) = delete;` this deletes the copy constructor and prevent the compiler from generating one. This is useful when we do not want our object to be passed by value or copied.
+
+
+
+    - Destructors
+        - called when object are destroyed : `~class_name()`
+        - used for releasing system resources (eg memory, file handles, etc)
+        - can not overload. Each class has 1 destructor.
+
+
+    - Instance and Static Members 
+        - instance members : each object/member has its own copy
+        - static members : shared by all objects of the class 
+        - `static functions` : 
+            - cannot access instance members as they don’t know about the existence of any instances
+            - declaration/prototype : `static int var();` 
+            - definition : `int var(){...}`
+        - In C++, not strictly necessary to create a static member function to access a static member variable of a class, but it is generally considered good practice to do so
+        - Why ? If you use a non-static member function to access a static variable, it implies that the operation is somehow related to a particular instance of the class, which is not the case for static variables. This can be misleading to someone reading the code.
+
+    - Constant object and functions 
+
+
+- Operator Overloading 
+
+
+- Inheritance 
+
+
+- Polymorphism 
+
+
+- Exceptions 
+
+
+- Templates 
