@@ -149,6 +149,8 @@
         - Call by value : `int func(int var)` 
         - Call by reference : definition changes -> `void func(int& var)` / use pointers
     - Constant functions : `int func() const {...}`, this tells that the function will not modify the state of the (this) object. `static` method can not be const bz they are not related to objects. 
+    - Inline functions : Functions defined in a class header file are known as inline. We can explicitly make functions defined in an implementation file inline using the inline keyword. Inline functions hint the compiler to optimize the executable by replacing each function call with the code in the function itself. Whether this happens or not is up to the compiler
+
 
         
 - Organizing Functions in files : 
@@ -216,6 +218,10 @@
     - Unpacking array (Structured binding) : `auto [x,y,z] = arr;`
 
 - `sizeof()` return `size_t` which is a datatype ~ largest datatype in size
+
+- Type Qualifiers : 
+    - `const`
+
 
 - Pointers 
     - `nullptr` = null pointer 
@@ -392,6 +398,7 @@
 
 ## Part 3 : Advance (OOP)
 - specify compiler version while compiling `g++ -std=c++20 your_file.cpp -o your_program`
+
 - Classes : 
     - OOP :
         - Programming Paradigm : style or way of writing software (example OOP, functional, procedural, event driven)
@@ -488,10 +495,51 @@
         - `ClassName obj_arr[] = {...};` // you can explicitly create object on add them, default constructor not necessary 
         - `ClassName obj_arr[] = { {}, {var1, var2}, {var1, var2, var3}};` // can directly specify arguments for constructor as compiler already knows the type
 
-
+        
 
 - Operator Overloading 
+    - chaining of operations 
+    - Equality : `==`
+        - `obj1 == obj2` -> `bool operator==(const ClassName& obj2);`
+        - the overloaded function is called on the first operand
+        - if we overload `==` op, compiler should automatically generates the `!=` for us 
+        - if we have to overload `!=` op, simply negate what `==` returns
+    - Comparison : 
+        - implement `<`and `>`
+        - then implement `<=` and `>=` in terms of negative `>` and `<`   
+    - Spaceship : 
+        - `<=>` : three way comparison operator 
+        - returns `strong_ordering::less / equal / greater`
+        - reduces number of operations for large objects 
+        - once overloaded compiler generates all other comparison operator 
+        - has issues 
+    - Stream Insertion (`<<`) and Extraction (`>>`) : 
+        - have to be overloaded as non members outside the class
+        - can declare as `friend` to access private members directly
+    - Friends of class :
+        - a non member function can can access private members of a class 
+        - `friend void function();`
+    - Arithmetic(`+`) and Compound Assignment (`+=`)Operator 
+        - `Length operator+(const Length& obj2) const;`
+        - `Length& operator+(const Length& obj2);` returns `*this`
+    - Assignment 
+        - compiler generates default assignment operator unlike comparison and arithmetic 
+        - `Length& operator=(const Length& obj2);` returns `*this` 
+        - `=` when used to initialize a new object : copy constructor is called
+        - `=` when used to assign existing obj : assignment function is called 
+    
+    - Unary Operators :
+        - `++`/`--` : 
+            - prefix `++x`: `Length& operator++()`
+            - postfix `x++`: `Length operator++(int)` 
+            - In C++, both the prefix and postfix increment operators use the same symbol ++. To differentiate between them when overloading these operators for a class, C++ uses an int parameter in the function signature of the postfix version. 
+    
+    - Subscript `[]` : 
+        - access individual element in an array 
+        - `int& operator[](size_t index)`
 
+    - Indirection `*`
+    
 
 - Inheritance 
 
