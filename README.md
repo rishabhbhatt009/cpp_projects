@@ -244,7 +244,10 @@
             - `delete[] ptr` : de-allocate memory 
             - to extend an array : create array -> if capacity full -> create new array -> copy values from old array -> delete old array -> reassign variable
             - however this is implemented in std library : `vectors`
-    - What are Memory Leaks : when our program consumes more and more memory without de-allocating unused memory
+    - What are Memory Leaks : 
+        - when our program consumes more and more memory without de-allocating unused memory
+        - (pointers in heap) delete memory -> reset pointer to `nullptr`
+
     - Smart Pointers :
         - `include <memory>`
         - internally uses pointers array but adds functionality and abstracts complexity
@@ -473,6 +476,18 @@
         - Why ? If you use a non-static member function to access a static variable, it implies that the operation is somehow related to a particular instance of the class, which is not the case for static variables. This can be misleading to someone reading the code.
 
     - Constant object and functions 
+
+    - Object pointers 
+        - normal pointers (`int*`) : part of the stack (garbage collection happens)
+        - pointer using (`new`) : 
+            - part of the heap, persists even after scope ends
+            - delete memory and free pointer (by setting to none)
+
+    - Array of objects :
+        - `ClassName obj_arr[10];` // needs a default constructor 
+        - `ClassName obj_arr[] = {...};` // you can explicitly create object on add them, default constructor not necessary 
+        - `ClassName obj_arr[] = { {}, {var1, var2}, {var1, var2, var3}};` // can directly specify arguments for constructor as compiler already knows the type
+
 
 
 - Operator Overloading 
