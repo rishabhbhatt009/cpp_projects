@@ -542,9 +542,41 @@
     
 
 - Inheritance 
+    - Inheritance allows us to create a new class based on an existing class. The new class automatically inherits all the members of the base class (except constructors & destructor)
+    - Base/Parent Class <- Derived/Child Class
+    - Protected Members : 
+        - Private Members are not accessible by derived class 
+        - Protected Members are accessible by derived class
+    - Constructors and Destructors in inheritance :
+        - Constructors are not inherited in derived class, we call the base class constructor using an initializer list, we cannot call the base class constructor from the body
+        - Order of Execution : 
+            - Constructors : Base -> Derived 
+            - Destructors : Derived -> Base 
+        - we can however explicitly inherit the base class constructor with `using`
+        - After the body of the derived class destructor has completed its execution, the destructor of the base class is automatically called. There is no need (and no way) to explicitly call the base class destructor from the derived class destructor.
+    - Conversion b/w base and derived class 
+        - Up-casting : derived class obj -> base class obj
+        - Object Slicing 
+        - Down-casting : base class obj -> derived class obj (`illegal`)
+    - Overriding method : 
+        - compiler uses `early or static binding` which happens at compile time
+        - sometimes when overriding a class we need `late or dynamic binding` which happens at run time
+        -  for `late or dynamic binding` 
+            - we use `virtual` keyword on the base class function = `virtual void func()`, 
+            - `override` keyword on the derived class function = `void func() override`
+    - Polymorphism
+    - Polymorphic Collection 
 
+    - Abstract Classes : 
+        - have atleast 1 `pure virtual method` => `virtual void func() = 0;`
+        - such classes can not be instantiated 
+        - but you can create references and pointers of the class for polymorphic behavior
+        - you have to define this method in derive class else derived class becomes abstract
 
-- Polymorphism 
+    - Final Classes :
+        - Final methods cannot be overridden
+        - Final classes cannot be inherited
+
 
 
 - Exceptions 
