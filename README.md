@@ -594,5 +594,29 @@
         - use a single catch with base class exception (example `logic_error` base for `out_of_range` and `invalid_argument`)
     - Custom Exceptions : 
         - methods in custom exception class declared with `noexcept` keyword
+    - The call stack lists the functions that have been called in the reverse order. When an exception is thrown, the runtime looks for a catch block through the call stack. If no catch block is found, the program crashes. 
 
 - Templates 
+    - What are templates : 
+        - help us create flexible functions and classes that can work with all data types
+        - these functions and classes are called `generic`
+    
+    - template declaration (function): 
+        - `template<typename T>` or `template<class T>`
+        - both `typename` and `class` are interchangeable 
+    
+    - template v/s overloading :  
+        - Flexible data types 
+        - compilation : 
+            - compiler generates instances of a template based on the usages
+            - If we don’t use a function/class template, it’s not included in the executable
+    
+    - explicit specify type of argument : `func_name<type>()`
+    - templates with multiple arguments : `template<typename T, typename U>`
+    
+    - class template :
+        - class has template declaration : 
+        - functions should be generated in `.hpp` itself
+        - function will also have template declaration 
+
+---
