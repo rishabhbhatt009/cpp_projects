@@ -1,7 +1,9 @@
 #include "utils/length.hpp"
 // #include "utils/rectangle.hpp"
 #include "utils/SmartPointer.hpp"
+#include "utils/template.hpp"
 #include "inheritance/shapes.hpp"
+
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -85,11 +87,7 @@ void show_shape(Shape& shape){
     shape.draw();
 }
 
-int main(){
-
-    // understanding_classes();
-    // operator_overloading();
-
+void doing_some_inheritance(){
     // Inheritance 
     // Rectangle R1 = Rectangle{10,10};
     // string color = "Red";
@@ -111,5 +109,29 @@ int main(){
     for (const unique_ptr<Shape>& shape : shapes){
         shape->draw();
     }
+}
+
+// Templates
+// normal function will have to be overloaded to support diff data types
+// bool larger(int a, int b){
+//     return (a>b);
+// }
+template<typename TYPE>
+bool larger(TYPE a, TYPE b){
+    return (a>b);
+}
+
+
+int main(){
+
+    // understanding_classes();
+    // operator_overloading();
+    // doing_some_inheritance();
+    cout << larger(2,1) << endl;
+    cout << larger("s","a") << endl;
+
+    my_dict map = my_dict("a",65);
+    cout << map.get_key() << ":" << map.get_val() <<endl;
+
     return 0; 
 } 
