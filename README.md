@@ -566,20 +566,33 @@
             - `override` keyword on the derived class function = `void func() override`
     - Polymorphism
     - Polymorphic Collection 
-
     - Abstract Classes : 
         - have atleast 1 `pure virtual method` => `virtual void func() = 0;`
         - such classes can not be instantiated 
         - but you can create references and pointers of the class for polymorphic behavior
         - you have to define this method in derive class else derived class becomes abstract
-
     - Final Classes :
-        - Final methods cannot be overridden
-        - Final classes cannot be inherited
+        - Final methods cannot be overridden -> `void func() final`
+        - Final classes cannot be inherited -> `class CLASS final`
+    
+    - Deep inheritance hierarchy 
+    - Multiple Inheritance : multiple base classes 
 
 
-
-- Exceptions 
-
+- Exceptions  (Error Handling)
+    - What are exceptions ? 
+        - exception is an object that contains information about an error
+        - we use exceptions to report errors that occur while our program is running
+        - `exception` class in `<stdexcept>`
+        - Exceptions -> logic exceptions -> runtime exceptions 
+    - Throw exceptions : we `throw` an exception 
+    - Catch Exceptions : 
+        - we use `try {...} catch {...}` to catch exception 
+        - `catch(const exception& ex) {cout << ex.what()};`
+    - Catch multiple exceptions : 
+        - multiple catches for multiple errors 
+        - use a single catch with base class exception (example `logic_error` base for `out_of_range` and `invalid_argument`)
+    - Custom Exceptions : 
+        - methods in custom exception class declared with `noexcept` keyword
 
 - Templates 
