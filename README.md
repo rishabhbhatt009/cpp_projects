@@ -150,8 +150,6 @@
         - Call by reference : definition changes -> `void func(int& var)` / use pointers
     - Constant functions : `int func() const {...}`, this tells that the function will not modify the state of the (this) object. `static` method can not be const bz they are not related to objects. 
     - Inline functions : Functions defined in a class header file are known as inline. We can explicitly make functions defined in an implementation file inline using the inline keyword. Inline functions hint the compiler to optimize the executable by replacing each function call with the code in the function itself. Whether this happens or not is up to the compiler
-
-
         
 - Organizing Functions in files : 
     - Implementation/Source File (`utils.cpp`) with Function Definitions 
@@ -160,11 +158,13 @@
     - Note : Compile both `main.cpp` & `func.cpp`, 2 ways to compile all files : 
         - by adding them in `g++` one by one, 
         - using a `makefile`
+        - separate compilation and then combined exec
 
 - Standard Template Library
     - we use the `include` directive to add functions
-    - `using namespace std` : adds all fnuction in `std` to namespace
-    - `using std::cout` : adds `std::cout` to namespace
+    - `using` operator : 
+        - `using namespace std` : adds all fnuction in `std` to namespace
+        - `using std::cout` : adds `std::cout` to namespace
     - `# include <iostream>` : for IO streams 
         - Standard output stream : `std::cout` 
             - Stream insertion operator : `<<`
@@ -223,7 +223,7 @@
     - `const`
 
 
-- Pointers 
+- Pointers
     - `nullptr` = null pointer 
     - `&` : `address of` operator when `&a`, gives the address of a variable
     - `&` : `reference` operator when `int&`, declares a reference to int type
@@ -232,7 +232,7 @@
     - Constant pointer : 
         - `int* ptr` : normal pointer 
         - `const int* ptr` : pointer to a const integer
-        - `int* const ptr` : constant pointer to an integer 
+        - `int* const ptr` : constant pointer to an integer (similar to a reference but different)
         - `const int* const ptr` : constant pointer to a constant integer 
     - Passing pointers to and from functions :
         - you can call by reference using : 
@@ -244,7 +244,7 @@
         - normal memory allocation : 
             - in Stack (garbage collection)
             - `int arr[10]` has fixed # of elements 
-        - dynamic memory allocation : 
+        - dynamic memory allocation (raw pointers) : 
             - in Heap (we have to clean up)
             - `int* ptr = new int[10];` allocate memory 
             - `delete[] ptr` : de-allocate memory 
@@ -259,7 +259,7 @@
         - internally uses pointers array but adds functionality and abstracts complexity
         - Unique Pointers :
             - inbuilt de-allocation functionality  
-            - the pointer owns the memory location 
+            - the pointer owns the memory location. you can transfer/move ownership but not share it.  
             - `unique_ptr<int> x(new int);`
             - `unique_ptr<int> y = make_unique<int>();`
             - `auto z = make_unique<int>()`
@@ -322,7 +322,7 @@
     - Defining structures : `struct name {...;};` //can add default values for members
     - Declaring : `name var;`
     - Initializing : `name var = {1, "Rishabh"}` // values in order
-    - unpakcing : `auto [a,b] = var`
+    - unpacking : `auto [a,b] = var`
     - array of structures : `name arr[N];`
     - Nesting structures
     - Comparing Structures (using `if` without overloading)
@@ -389,11 +389,6 @@
         }
         ```
 
-
-
-
-
-
 ---
 
 ## Part 3 : Advance (OOP)
@@ -415,12 +410,12 @@
     
     - Classes : 
         - enable encapsulation of attributes (data) and methods (functions = behavior)
-        - create `.cpp` (implementation) and `.h` (header) files
-        - header file (`.h`) includes :
+        - create `.cpp` (implementation) and `.hpp` (header) files
+        - header file (`.hpp`) includes :
             - header guard 
             - class definition : attributes and method prototypes 
         - implementation/source file (`.cpp`) includes :
-            - `#include .h`
+            - `#include .hpp`
             - implementation of class methods  
             - we use (scope resolution operator `::`) to specify class for each function 
         - only header file included in `main.cpp`
@@ -429,7 +424,7 @@
             - when we modify function in source file only source file need to be re-compiled
             - when we modify the header file we have to re-compile the header file + all files that are dependent on the header file
     
-    - Access modifiers (public, private)
+    - Access modifiers (public, protected, private)
         - enables abstraction 
         - public, private and protected
     
@@ -438,9 +433,8 @@
         - Setter or Mutator : validate and set values for member variables
 
     - Constructors 
-        - `class_name(){...}` // not return type not even `void` 
+        - `class_name(){...}` // no return type not even `void` 
         - `obj = class_name(val1, val2)`
-        - `obj = class_name{val1, val2}`
         - member variables can be initialized : 
             - inside the constructor 
             - using the `member initializer list`
@@ -495,7 +489,7 @@
         - `ClassName obj_arr[] = {...};` // you can explicitly create object on add them, default constructor not necessary 
         - `ClassName obj_arr[] = { {}, {var1, var2}, {var1, var2, var3}};` // can directly specify arguments for constructor as compiler already knows the type
 
-        
+- Function Overloading and Overriding 
 
 - Operator Overloading 
     - chaining of operations 
@@ -517,6 +511,7 @@
         - have to be overloaded as non members outside the class
         - can declare as `friend` to access private members directly
     - Friends of class :
+        - `friend` is an access specifier
         - a non member function can can access private members of a class 
         - `friend void function();`
     - Arithmetic(`+`) and Compound Assignment (`+=`)Operator 
@@ -556,15 +551,15 @@
         - After the body of the derived class destructor has completed its execution, the destructor of the base class is automatically called. There is no need (and no way) to explicitly call the base class destructor from the derived class destructor.
     - Conversion b/w base and derived class 
         - Up-casting : derived class obj -> base class obj
-        - Object Slicing 
-        - Down-casting : base class obj -> derived class obj (`illegal`)
+        - Object Slicing : occurs when a derived class object is assigned to a base class object, resulting in the loss of the part of the object that is not part of the base class
+        - Down-casting : base class obj -> derived class obj (can be `illegal`)
     - Overriding method : 
         - compiler uses `early or static binding` which happens at compile time
         - sometimes when overriding a class we need `late or dynamic binding` which happens at run time
         -  for `late or dynamic binding` 
             - we use `virtual` keyword on the base class function = `virtual void func()`, 
             - `override` keyword on the derived class function = `void func() override`
-    - Polymorphism
+    - Polymorphism : static and dynamic
     - Polymorphic Collection 
     - Abstract Classes : 
         - have atleast 1 `pure virtual method` => `virtual void func() = 0;`
@@ -573,10 +568,10 @@
         - you have to define this method in derive class else derived class becomes abstract
     - Final Classes :
         - Final methods cannot be overridden -> `void func() final`
-        - Final classes cannot be inherited -> `class CLASS final`
+        - Final classes cannot be inherited -> `class My_Class final`
     
     - Deep inheritance hierarchy 
-    - Multiple Inheritance : multiple base classes 
+    - Multiple Inheritance : multiple base classes (can lead to diamond inheritance problem) 
 
 
 - Exceptions  (Error Handling)
